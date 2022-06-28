@@ -1,24 +1,45 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Exemple d'application du didacticiel Ruby on Rails
 
-Things you may want to cover:
+Ceci est l'exemple d'application pour le
+[*Tutoriel Ruby on Rails :
+Apprendre le développement Web avec Rails*](https://www.railstutorial.org/)
+par [Michael Hartl](https:// www.michaelhartl.com/).
 
-* Ruby version
+## Licence
 
-* System dependencies
+Tout le code source du [tutoriel Ruby on Rails](https://www.railstutorial.org/)
+est disponible conjointement sous la licence MIT et la licence Beerware. Voir
+[LICENSE.md](LICENSE.md) pour plus de détails.
 
-* Configuration
+## Premiers pas
 
-* Database creation
+Pour démarrer avec l'application, clonez le référentiel, puis installez les gems nécessaires :
 
-* Database initialization
+```
+$ gem install bundler -v 2.3.14
+$ bundle _2.3.14_ config set --local without 'production'
+$ bundle _2.3.14_ installer
+```
 
-* How to run the test suite
+Ensuite, migrez la base de données :
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+$ rails db:migrate
+```
 
-* Deployment instructions
+Enfin, exécutez la suite de tests pour vérifier que tout fonctionne correctement :
 
-* ...
+```
+$ rails test
+```
+
+Si la suite de tests réussit, vous serez prêt à exécuter l'application sur un serveur local :
+
+```
+$ rails server
+```
+
+Pour plus d'informations, consultez le
+[*livre Ruby on Rails Tutorial*](https://www.railstutorial.org/book).
