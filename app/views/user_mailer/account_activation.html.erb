@@ -1,0 +1,9 @@
+<h1>Simple application</h1>
+
+<p>
+  Bienvenue dans l'exemple d'application ! Cliquez sur le lien ci-dessous
+  pour activer votre compte :
+</p>
+
+<%= link_to "Activate", edit_account_activation_url(@user.activation_token,
+                                                    email: @user.email) %>
