@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
-  before_save { email.downcase! }
+  attr_accessor :remember_token, :activation_token #, :reset_token
+  before_save   { self.email.downcase! }
+  before_create :create_activation_digest
   validates :name, presence: true, length: { maximum: 25 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 40 },
@@ -43,5 +44,18 @@ class User < ApplicationRecord
   # Déconnecte l'utilisateur actuellement connecté.
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  private
+
+  # Convertis tous les emails en minuscules.
+  def downcase_email
+    self.email = email.downcase
+  end
+
+  # Crée et attribue le token d'activation et le digest.
+  def create_activation_digest
+    self.activation_token = User.new_token
+    self.activation_digest = User.digest(activation_token)
   end
 end
