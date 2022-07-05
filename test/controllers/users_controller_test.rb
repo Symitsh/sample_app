@@ -12,6 +12,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "devrait rediriger l'index lorsqu'il n'est pas connecté" do
+    get users_path
+    assert_redirected_to login_url
+  end
+
   test "devrait rediriger vers edit lorsqu'il n'est pas connecté" do
     get edit_user_path(@user)
     assert_not flash.empty?
