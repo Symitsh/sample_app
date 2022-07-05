@@ -31,6 +31,11 @@ module SessionsHelper
     end
   end
 
+  # Renvoie true si l'utilisateur donné est l'utilisateur actuel.
+  def current_user?(user)
+    user && user == current_user
+  end
+
   # Renvoie l'utilisateur actuellement connecté (le cas échéant).
   def current_user
     if (user_id = session[:user_id])
@@ -61,5 +66,10 @@ module SessionsHelper
     forget(current_user)
     reset_session
     @current_user = nil
+  end
+
+  # Stocke l'URL essayant d'être accessible
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
   end
 end
