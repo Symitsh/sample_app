@@ -8,7 +8,8 @@
       <%= f.label :email %>
       <%= f.email_field :email, class: "form-control" %>
 
-      <%= f.label :password %>
+      <%= f.label :"mot de passe"%>
+      <%= link_to "(mot de passe oublié)", new_password_reset_path %>
       <%= f.password_field :password, class: "form-control" %>
 
       <%= f.label :remember_me, class: "checkbox inline" do %>
@@ -16,7 +17,7 @@
         <span>Se souvenir de moi</span>
       <% end %>
 
-      <%= f.submit "Log in", class: "btn btn-primary" %>
+      <%= f.submit "Connexion", class: "btn btn-primary" %>
     <% end %>
 
     <p>Nouvel utilisateur? <%= link_to "S'inscrire maintenant!", signup_path %></p>
