@@ -19,12 +19,10 @@ module SessionsHelper
   def current_user
     if (user_id = session[:user_id])
       user = User.find_by(id: user_id)
-      if user && session[:session_token] == user.session_token
-        @current_user = user
-      end
+      @current_user ||= user if session[:session_token] == user.session_token
     elsif (user_id = cookies.encrypted[:user_id])
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = user
       end
@@ -34,19 +32,6 @@ module SessionsHelper
   # Renvoie true si l'utilisateur donné est l'utilisateur actuel.
   def current_user?(user)
     user && user == current_user
-  end
-
-  # Renvoie l'utilisateur actuellement connecté (le cas échéant).
-  def current_user
-    if (user_id = session[:user_id])
-      @current_user ||= User.find_by(id: session[:user_id])
-    elsif (user_id = cookies.encrypted[:user_id])
-      user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
-        log_in user
-        @current_user = user
-      end
-    end
   end
 
   # Renvoie true si l'utilisateur est connecté, false sinon.

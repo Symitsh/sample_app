@@ -9,12 +9,12 @@ end
 
 class InvalidPasswordTest < UsersLogin
 
-  test "login path" do
+  test "visite le login_path" do
     get login_path                                                      # Visitez le chemin de connexion.
     assert_template 'sessions/new'                                      # Vérifiez que le nouveau formulaire de sessions s'affiche correctement.
   end
 
-  test "login with valid email/invalid password" do
+  test "connection avec un email valide/un mot de passe invalide" do
     post login_path, params: { session: { email: @user.email,
                                           password: "invalid" } }       # Soumettez un formulaire de connexion non valide.
     assert_not is_logged_in?                                            # Vérifiez que l'utilisateur n'est pas connecté.
@@ -37,12 +37,12 @@ end
 
 class ValidLoginTest < ValidLogin
 
-  test "valid login" do
+  test "connexion valide" do
     assert is_logged_in?
     assert_redirected_to @user
   end
 
-  test "redirect after login" do
+  test "rediriger après la connexion" do
     follow_redirect!
     assert_template 'users/show'
     assert_select "a[href=?]", login_path, count: 0
@@ -61,35 +61,35 @@ end
 
 class LogoutTest < Logout
 
-  test "successful logout" do
+  test "déconnexion réussie" do
     assert_not is_logged_in?
     assert_response :see_other
     assert_redirected_to root_url
   end
 
-  test "redirect after logout" do
+  test "rediriger après la déconnexion" do
     follow_redirect!
     assert_select "a[href=?]", login_path
     assert_select "a[href=?]", logout_path,     count: 0
     assert_select "a[href=?]", user_path(@user), count: 0
   end
 
-  test "should still work after logout in second window" do
+  test "devrait toujours fonctionner après la déconnexion dans la deuxième fenêtre" do
     delete logout_path
     assert_redirected_to root_url
   end
 
   class RememberingTest < UsersLogin
 
-    test "login with remembering" do
+    test "connexion avec mémorisation" do
       log_in_as(@user, remember_me: '1')
       assert_not cookies[:remember_token].blank?
     end
 
-    test "login without remembering" do
-      # Log in to set the cookie.
+    test "se connecter sans se souvenir" do
+      # Connection pour définir le cookie
       log_in_as(@user, remember_me: '1')
-      # Log in again and verify that the cookie is deleted.
+      # Connection à nouveau et vérifiez que le cookie est supprimé.
       log_in_as(@user, remember_me: '0')
       assert cookies[:remember_token].blank?
     end

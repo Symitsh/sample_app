@@ -36,14 +36,25 @@ class User < ApplicationRecord
   end
 
   # Retourne true si le token donnée correspond à la digest de la clé.
-  def authenticated?(remember_token)
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
     return false if remember_digest.nil?    # Si le digest est nil, l'utilisateur n'a pas de clé de mémorisation.
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   # Déconnecte l'utilisateur actuellement connecté.
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  # Active le compte de l'utilisateur.
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
+
+  # Envoie un e-mail d'activation à l'utilisateur.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   private
