@@ -4,7 +4,6 @@ class PasswordResets < ActionDispatch::IntegrationTest
 
   def setup
     ActionMailer::Base.deliveries.clear
-    @user = users(:michael)
   end
 end
 
@@ -23,6 +22,7 @@ class ForgotPasswordFormTest < PasswordResets
     assert_template 'password_resets/new'
   end
 end
+
 class PasswordResetForm < PasswordResets
 
   def setup
@@ -33,7 +33,6 @@ class PasswordResetForm < PasswordResets
     @reset_user = assigns(:user)
   end
 end
-
 
 class PasswordFormTest < PasswordResetForm
 
@@ -61,17 +60,17 @@ class PasswordFormTest < PasswordResetForm
     assert_redirected_to root_url
   end
 
-
-  #test "réinitialiser avec le bon e-mail et le bon token" do
-  #  get edit_password_reset_path(@reset_user.reset_token,
-  #                               email: @reset_user.email)
-  #  assert_template 'password_resets/edit'
-  #  assert_select "input[name=email][type=hidden][value=?]", @reset_user.email
-  #end
-
+=begin Problème de test:
+  test "réinitialiser avec le bon e-mail et le bon token" do
+    get edit_password_reset_path(@reset_user.reset_token,
+                                 email: @reset_user.email)
+    assert_template 'password_resets/edit'
+    assert_select "input[name=email][type=hidden][value=?]", @reset_user.email
+  end
+=end
 end
 
-=begin
+=begin Problème de test:
 class PasswordUpdateTest < PasswordResetForm
 
   test "mise à jour avec mot de passe invalide et confirmation" do
@@ -120,7 +119,7 @@ class ExpiredToken < PasswordResets
   end
 end
 
-=begin
+=begin Problème de test:
 class ExpiredTokenTest < ExpiredToken
 
   test "devrait rediriger vers la page de réinitialisation du mot de passe" do
