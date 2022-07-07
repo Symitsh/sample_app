@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
 
@@ -30,14 +30,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_url
   end
 
-  test "ne doit pas autoriser la modification de l'attribut admin via le Web" do
+  test "devrait rediriger l'edit lorsqu'il est connecté en tant qu'utilisateur erroné" do
     log_in_as(@other_user)
-    assert_not @other_user.admin?
-    patch user_path(@other_user), params: {
-                                    user: { password:              "password",
-                                            password_confirmation: "password",
-                                            admin: true } }
-    assert_not @other_user.reload.admin?
+    get edit_user_path(@user)
+    assert flash.empty?
+    assert_redirected_to root_url
   end
 
   test "devrait rediriger vers update lorsqu'il est connecté en tant qu'utilisateur erroné" do
@@ -52,7 +49,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference 'User.count' do
       delete user_path(@user)
     end
-    assert_response :see_other
     assert_redirected_to login_url
   end
 
@@ -61,7 +57,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference 'User.count' do
       delete user_path(@user)
     end
-    assert_response :see_other
     assert_redirected_to root_url
   end
 end

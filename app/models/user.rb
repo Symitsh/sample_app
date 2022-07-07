@@ -74,16 +74,22 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  # Définie un proto-feed.
+  # Voir "Following users" pour plus de détails.
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   private
 
-  # Convertis tous les emails en minuscules.
-  def downcase_email
-    self.email = email.downcase
-  end
+    # Convertis tous les emails en minuscules.
+    def downcase_email
+      self.email = email.downcase
+    end
 
-  # Crée et attribue le token d'activation et le digest.
-  def create_activation_digest
-    self.activation_token = User.new_token
-    self.activation_digest = User.digest(activation_token)
-  end
+    # Crée et attribue le token d'activation et le digest.
+    def create_activation_digest
+      self.activation_token = User.new_token
+      self.activation_digest = User.digest(activation_token)
+    end
 end

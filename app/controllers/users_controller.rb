@@ -55,25 +55,16 @@ class UsersController < ApplicationController
                                  :password_confirmation)
   end
 
-  # Before filters
+  # Après les filtres.
 
-  # Confirms a logged-in user.
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "Veuillez vous connecter."
-      redirect_to login_url, status: :see_other
-    end
-  end
-
-  # Confirms the correct user.
+  # Confirme le bon utilisateur.
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_url) unless current_user?(@user)
+    redirect_to(root_url) unless @user == current_user
   end
 
-  # Confirms an admin user.
+  # Confirme un utilisateur administrateur.
   def admin_user
-    redirect_to(root_url, status: :see_other) unless current_user.admin?
+    redirect_to(root_url) unless current_user.admin?
   end
 end
