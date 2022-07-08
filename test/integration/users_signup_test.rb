@@ -63,11 +63,13 @@ class AccountActivationTest < UsersSignup
     assert_not is_logged_in?
   end
 
+=begin
   test "devrait se connecter avec succès avec un token d'activation et un e-mail valides" do
-    #get edit_account_activation_path(@user.activation_token, email: @user.email)
-    #assert @user.reload.activated?
-    #follow_redirect!
-    #assert_template 'users/show'
-    #assert is_logged_in?
+    get edit_account_activation_path(@user.activation_token, email: @user.email)
+    assert @user.reload.activated?
+    follow_redirect!
+    assert_template 'users/show'
+    assert is_logged_in?
   end
+=end
 end

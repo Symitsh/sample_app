@@ -10,7 +10,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    # redirect_to root_url and return unless @user.activated?
     @microposts = @user.microposts.paginate(page: params[:page])
   end
 
@@ -23,7 +22,7 @@ class UsersController < ApplicationController
     if @user.save
       @user.send_activation_email
       flash[:info] = "Un email vous a été envoyé pour activer votre compte."
-      redirect_to root_url #, status: :see_other
+      redirect_to root_url
     else
       render 'new', status: :unprocessable_entity
     end
