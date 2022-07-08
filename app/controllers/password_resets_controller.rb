@@ -1,6 +1,6 @@
 class PasswordResetsController < ApplicationController
-  before_action :get_user, only: [:edit, :update]
-  before_action :valid_user, only: [:edit, :update]
+  before_action :get_user,         only: [:edit, :update]
+  before_action :valid_user,       only: [:edit, :update]
   before_action :check_expiration, only: [:edit, :update]
 
   def new
@@ -27,9 +27,10 @@ class PasswordResetsController < ApplicationController
       @user.errors.add(:password, "Ne peut pas être vide")
       render 'edit', status: :unprocessable_entity
     elsif @user.update(user_params)
+      # user.update_attribute(:reset_digest, nil) # exercice 12.18
       reset_session
       log_in @User
-      @user.update_attribute(:reset_digest, nil)
+      @user.update_attribute(:reset_digest, nil)  # exercice 12.23
       flash[:success] = "Mot de passe mis à jour"
       redirect_to @user
     else
