@@ -59,4 +59,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_url
   end
+
+  test "devrait rediriger following lorsqu'il n'est pas connecté" do
+    get following_user_path(@user)
+    assert_redirected_to login_url
+  end
+
+  test "devrait rediriger les followers lorsqu'ils ne sont pas connectés" do
+    get followers_user_path(@user)
+    assert_redirected_to login_url
+  end
 end
