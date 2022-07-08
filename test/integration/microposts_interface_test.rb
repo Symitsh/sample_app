@@ -55,19 +55,19 @@ class MicropostSidebarTest < MicropostsInterface
 
   test "devrait afficher le bon nombre de microposts" do
     get root_path
-    assert_match "#{@user.microposts.count} microposts", response.body
+    assert_match "#{@user.microposts.count} micro-messages", response.body
   end
 
   test "devrait utliser la pluralisation appropriée pour zéro microposts" do
     log_in_as(users(:malory))
     get root_path
-    assert_match "0 microposts", response.body
+    assert_match "0 micro-message", response.body
   end
 
   test "devrait utiliser la pluralisation appropriée pour un micropost" do
     log_in_as(users(:lana))
     get root_path
-    assert_match "1 micropost", response.body
+    assert_match "1 micro-message", response.body
   end
 end
 

@@ -98,4 +98,21 @@ class UserTest < ActiveSupport::TestCase
     assert_not michael.following?(michael)
   end
 
+  test "feed doit contenir les bons messages" do
+    michael = users(:michael)
+    archer  = users(:archer)
+    lana    = users(:lana)
+    # Messages de l'utilisateur suivi
+    lana.microposts.each do |post_following|
+      assert michael.feed.include?(post_following)
+    end
+    # Auto-publications pour l'utilisateur avec des abonnés
+    michael.microposts.each do |post_self|
+      assert michael.feed.include?(post_self)
+    end
+    # Messages d'un utilisateur non suivi
+    archer.microposts.each do |post_unfollowed|
+      assert_not michael.feed.include?(post_unfollowed)
+    end
+  end
 end
